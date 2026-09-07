@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ลอยกระทงออนไลน์</title>
+
+    <link
+    
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+        crossorigin="anonymous"
+    >
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Charm&display=swap');
+
+        * {
+            font-family: '_____________', cursive;
+            color: rgb(7, 69, 91);
+        }
+
+        body {
+            background-image: url('');
+            background-size: 1500px 300px;
+        }
+
+        img {
+            display: block;
+            max-width: 50%;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            border: none;
+            background-color: transparent;
+        }
+
+        form {
+            background-color: rgb(231, 231, 202);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div>
+            <img
+                src=""
+                alt="ลอยกระทงออนไลน์"
+            >
+        </div>
+
+        <div class="text-center">
+            <h1>ลอยกระทงออนไลน์</h1>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+
+                <form
+                    id="fillForm"
+                    class="p-4 rounded shadow"
+                    onsubmit="submitForm(event, this)"
+                >
+                    <div class="mb-3">
+                        <label for="wishMessage" class="form-label fw-bold">
+                            กรุณาพิมพ์คำอธิษฐาน
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            name="wishMessage"
+                            id="wishMessage"
+                            rows="3"
+                            required
+                        ></textarea>
+                    </div>
+                 <div class="mb-3">
+                        <div class="form-check">
+
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                name="consent"
+                                id="consent"
+                                value="ยินยอม"
+                                required
+                            >
+
+                            <label class="form-check-label" for="consent">
+                                ข้าพเจ้ายินยอมให้เผยแพร่ข้อมูลได้
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" id="submitButton">
+                            <img
+                                src="https://raw.githubusercontent.com/udsaneePakdeetrakulwong/se/refs/heads/main/LK.png"
+                                alt="ส่งคำอธิษฐาน"
+                            >
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            พัฒนาโดย สาขาวิชาวิศวกรรมซอฟต์แวร์
+            <br>
+            มหาวิทยาลัยราชภัฏนครปฐม
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+
+            const submitButton = document.querySelector('#submitButton');
+            submitButton.disabled = true;
+
+            google.script.run
+                .withSuccessHandler(function (output) {
+                    form.reset();
+                    submitButton.disabled = false;
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'ส่งคำอธิษฐานเรียบร้อยแล้ว',
+                        text: 'ขอให้คำอธิษฐานของคุณเป็นจริง',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                })
+                .withFailureHandler(function (error) {
+                    submitButton.disabled = false;
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'บันทึกข้อมูลไม่สำเร็จ',
+                        text: error.message || 'กรุณาลองใหม่อีกครั้ง'
+                    });
+                })
+                .saveData(form);
+        }
+    </script>
+</body>
